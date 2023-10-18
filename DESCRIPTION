@@ -1,10 +1,7 @@
 Package: InsurFair
-Type: Package
-Title: Insurance, biases, discrimination and fairness
-Version: 0.1.0
-Author: Arthur Charpentier
-Maintainer: Arthur Charpentier <arthur.charpentier@gmail.com>
-Description: Codes and Data associated with the textbook Insurance, biases, discrimination and fairness
-License: GPL-2
-Encoding: UTF-8
-LazyData: true
+Title: Insurance, Biases, Discrimination and Fairness.
+Version: 0.1
+Authors@R: 'Arthur Charpentier <arthur.charpentier@gmail.com> [aut,cre]'
+Description: R package associated with the book
+License: GPL-3
+RoxygenNote: 7.2.3
