@@ -31,7 +31,7 @@
 #' @keywords dataset
 #' @examples
 #' data(frenchmotor)
-data(frenchmotor)
+"frenchmotor"
 
 #' German credit data
 #'
@@ -69,7 +69,7 @@ data(frenchmotor)
 #' @keywords dataset
 #' @examples
 #' data(germancredit)
-data(germancredit)
+"germancredit"
 
 #' Telematic data
 #'
@@ -103,7 +103,7 @@ data(germancredit)
 #' @examples
 #' data(telematic)
 #' table(telematic$insured_gender, telematic$claim)
-data(telematic)
+"telematic"
 
 #' Toy data no2
 #'
@@ -128,7 +128,7 @@ data(telematic)
 #' data(toydata2)
 #' data(toydata2_train)
 #' data(toydata2_valid)
-data(toydata2)
+"toydata2"
 
 #' Toy data no1
 #'
@@ -150,12 +150,15 @@ data(toydata2)
 #' data(toydata1)
 #' data(toydata1_train)
 #' data(toydata1_valid)
-data(toydata1)
+"toydata1"
 
-draw_transport = function(yA, yB, densA, densB, 
-                          limA = c(0,1), limB=c(0,1),
+draw_transport = function(yA, yB, 
+                          densA, densB, 
+                          limA = c(0,1), 
+                          limB=c(0,1),
                           limY = c(0,12),
-                          lab = c("A","B"), sub = 5){
+                          lab = c("A","B"), 
+                          sub = 5){
 
   d_A = data.frame(x=seq(limA[1],limA[2],length=251),
                    y=densA(seq(limA[1],limA[2],length=251)))
@@ -217,15 +220,19 @@ density_score = function(y){
 #' @param predy The vector of predicted scores (in $[0,1]$) 
 #' @param y The vector of observed values (in $\{0,1\}$)
 #' @param u The grid to compute values for the calibration plot (in $[0,1]$) 
+#' @param a Smoothing parameter for the local regression
 #' @return A dataframe with $x$ and $y$ used in the calibration plot
 #' @examples 
 #' d1 <- 1
 #' @export
-plot_calibration = function(predy,y,u=seq(0,1,by=.01),a=.05){
+plot_calibration = function(predy,
+                            y,
+                            u=seq(0,1,by=.01),
+                            a=.05){
   L =  locfit::locfit.raw(
     x=predy, 
     y=y, 
-    kern="rect",deg=0,alpha=a)
+    kern="rect", deg=0, alpha=a)
   caly = predict(L,newdata=u)
   return(data.frame(x=u,
                     y=caly))
