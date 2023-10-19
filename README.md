@@ -25,12 +25,12 @@ pyB = py[frenchmotor$sensitive=="Female"]
 par(mfrow=c(1,2))
 
 hist(pyA,probability = TRUE,xlab="Score (logistic regression), S = A", col=scales::alpha(COLORS["A"],.4), border="white",main="",breaks=seq(0,.6,by=.02))
-dA = density_score(pyA[sample(1:length(pyA),size=400)])
+dA = density_score(pyA)
 vx = seq(0,.6,length=101)
 lines(vx,dA(vx),col=COLORS["A"],lwd=3)
 
 hist(pyB,probability = TRUE,xlab="Score (logistic regression), S = B", col=scales::alpha(COLORS["B"],.4), border="white",main="",breaks=seq(0,.6,by=.02))
-dB = density_score(pyB[sample(1:length(pyB),size=400)])
+dB = density_score(pyB)
 vx = seq(0,.6,length=101)
 lines(vx,dB(vx),col=COLORS["B"],lwd=3)
 ```
@@ -39,11 +39,6 @@ lines(vx,dB(vx),col=COLORS["B"],lwd=3)
 
 ``` r
 library(locfit)
-```
-
-    ## locfit 1.5-9.8    2023-06-11
-
-``` r
 pcA = plot_calibration(pyA,(frenchmotor$y[frenchmotor$sensitive=="Male"]=="1")*1,u = seq(0,.25,length=201),a=.2)
 pcB = plot_calibration(pyB,frenchmotor$y[frenchmotor$sensitive=="Female"]=="1",u = seq(0,.25,length=201),a=.2)
 
