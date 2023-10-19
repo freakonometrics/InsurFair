@@ -4,20 +4,22 @@
 \alias{plot_calibration}
 \title{Compute the calibration function}
 \usage{
-plot_calibration(predy, y, u = seq(0, 1, by = 0.01))
+plot_calibration(predy, y, u = seq(0, 1, by = 0.01), a = 0.05)
 }
 \arguments{
-\item{predy}{The vector of predicted scores (in $[0,1]$)}
+\item{predy}{The vector of predicted scores (in \link{0,1})}
 
-\item{y}{The vector of observed values (in $\{0,1\}$)}
+\item{y}{The vector of observed values (in {0,1})}
 
-\item{u}{The grid to compute values for the calibration plot (in $[0,1]$)}
+\item{u}{The grid to compute values for the calibration plot (in $\link{0,1}$)}
+
+\item{a}{Smoothing parameter for the local regression}
 }
 \value{
 A dataframe with $x$ and $y$ used in the calibration plot
 }
 \description{
-Compute values use to plot the calibration plot of a score defined on $[0,1]$
+Compute values use to plot the calibration plot of a score defined on $\link{0,1}$
 }
 \examples{
 d1 <- 1

@@ -3,7 +3,7 @@
 #' Dataset from CASDataset R package
 #'
 #' @name frenchmotor
-#' 
+#' @details variables are
 #' \itemize{
 #'   \item LicAge     : num  454 163 332 447 408 222 316 284 459 244 ...
 #'   \item VehAge     : Factor w/ 9 levels "0","1","10+",..: 1 4 2 1 9 8 1 7 8 5 ...
@@ -38,7 +38,7 @@
 #' Dataset from CASDataset R package
 #'
 #' @name germancredit
-#' 
+#' @details variables are
 #' \itemize{
 #'   \item Account_status          : Factor w/ 4 levels "< 0 DM",">= 200 DM",..: 1 3 4 1 1 4 4 3 4 3 ...
 #'   \item Duration                : num  6 48 12 42 24 36 24 36 12 30 ...
@@ -76,7 +76,7 @@
 #' Telematic dataset (real data)
 #'
 #' @name telematic
-#' 
+#' @details variables are
 #' \itemize{
 #'   \item  id                : chr  "1" "2" "3" "4" ...
 #'   \item  Total_Distance    : num  3649 9066 27156 8558 17853 ...
@@ -110,7 +110,7 @@
 #' Toy dataset
 #'
 #' @name toydata2
-#' 
+#' @details variables are
 #' \itemize{
 #'   \item x1: (continuous) legitimate explanatory variable: num  -0.33 -1.22 -1.28 -0.93 0.8 -0.33 0.05 1 -0.07 -1.34 ...
 #'   \item x2: (continuous) legitimate explanatory variable: num  7.9 3.7 9.6 4.5 9.2 5.8 2.8 1.2 1.4 3.8 ...
@@ -135,7 +135,7 @@
 #' Toy dataset
 #'
 #' @name toydata1
-#'
+#' @details variables are
 #' \itemize{
 #'   \item x: (continuous) legitimate explanatory variable: num  -1.05838 -0.75016 1.54972 0.00442 -1.14538 ...
 #'   \item s: (binary) sensitive attribute: Factor w/ 2 levels "B","A": 1 2 2 2 2 2 1 1 2 1 ...
@@ -155,6 +155,7 @@
 #' Optimal transport plot for scores
 #'
 #' Plots the optimal transport between two wamples
+#' 
 #' @param yA vector of predictions in group A
 #' @param yB vector of predictions in group B
 #' @param densA kernel density estimate associated with sample yA
@@ -219,20 +220,25 @@ axis(2,at=seq(limB[1],limB[2],length=sub),label=c(NA,seq(limB[1],limB[2],length=
 
 #' Beta-kernel density estimation of a score
 #'
-#' Estimate the density of the score defined on $[0,1]$
+#' Estimate the density of the score defined on [0,1]
+#' 
 #' @param y The vector of scores
+#' @param b The kernel bandwidth 
 #' @return A function that is the density estimate
 #' @examples 
 #' d1 <- density_score(runif(100));
 #' d2 <- density_score(rbeta(100,2,1));
 #' @export
-density_score = function(y){
-  kdensity::kdensity(y ,kernel="beta")
+density_score = function(y,b = NA){
+  if( is.na(b)) d = kdensity::kdensity(y ,kernel="beta")
+  if(!is.na(b)) d = kdensity::kdensity(y ,kernel="beta", bw = b)
+  return(d)
 }
 
 #' Compute the calibration function
 #'
 #' Compute values use to plot the calibration plot of a score defined on $[0,1]$
+#' 
 #' @param predy The vector of predicted scores (in [0,1]) 
 #' @param y The vector of observed values (in {0,1})
 #' @param u The grid to compute values for the calibration plot (in $[0,1]$) 
@@ -257,6 +263,7 @@ plot_calibration = function(predy,
 #' Compute the transport function
 #'
 #' Compute values use to plot the (univariate) optimal transport 
+#' 
 #' @param y0 The vector of initial vector
 #' @param y1 The vector of final vector
 #' @param u The grid to compute values for the transport plot  
@@ -270,7 +277,7 @@ plot_transport = function(y0,
                           y1,
                           u=seq(min(y0),max(y0),length=251)){
   F0 = function(y) mean(y0<=y)
-  Q1 = function(u) quantile(y1,u) 
+  Q1 = function(u) quantile(y1, u) 
   F0u = Vectorize(F0)(u)
   Q1u = Vectorize(Q1)(F0u)
   return(data.frame(x=u,

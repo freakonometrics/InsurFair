@@ -5,7 +5,7 @@
 \alias{frenchmotor}
 \title{Motor insurance data}
 \format{
-data frame
+data frame with 12437 obs. of  18 variables
 }
 \usage{
 data(frenchmotor)
@@ -13,8 +13,10 @@ data(frenchmotor)
 \description{
 Dataset from CASDataset R package
 }
+\details{
+
+}
 \examples{
 data(frenchmotor)
-str(frenchmotor)
 }
 \keyword{dataset}

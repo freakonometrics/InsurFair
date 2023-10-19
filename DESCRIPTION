@@ -1,5 +1,5 @@
 Package: InsurFair
-Title: Insurance, Biases, Discrimination and Fairness.
+Title: Insurance Biases Discrimination and Fairness.
 Version: 0.1
 Authors@R: 'Arthur Charpentier <arthur.charpentier@gmail.com> [aut,cre]'
 Description: R package associated with the book
@@ -7,4 +7,9 @@ License: GPL-3
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 2.10)
-LazyData: true
+Roxygen: list(markdown = TRUE)
+Encoding: UTF-8
+Imports:
+    kdensity,
+    locfit,
+    scales

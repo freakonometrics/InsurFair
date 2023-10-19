@@ -4,16 +4,18 @@
 \alias{density_score}
 \title{Beta-kernel density estimation of a score}
 \usage{
-density_score(y)
+density_score(y, b = NA)
 }
 \arguments{
 \item{y}{The vector of scores}
+
+\item{b}{The kernel bandwidth}
 }
 \value{
 A function that is the density estimate
 }
 \description{
-Estimate the density of the score defined on $[0,1]$
+Estimate the density of the score defined on \link{0,1}
 }
 \examples{
 d1 <- density_score(runif(100));
