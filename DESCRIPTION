@@ -5,3 +5,6 @@ Authors@R: 'Arthur Charpentier <arthur.charpentier@gmail.com> [aut,cre]'
 Description: R package associated with the book
 License: GPL-3
 RoxygenNote: 7.2.3
+Depends: 
+    R (>= 2.10)
+LazyData: true
