@@ -16,6 +16,8 @@ library(InsurFair)
 
 
 ``` r
+data(frenchmotor)
+data(COLORS)
 library(kdensity)
 model = glm((y=="1")~., data=frenchmotor, family=binomial)
 py = predict(model, newdata = frenchmotor, type="response")
@@ -24,13 +26,13 @@ pyB = py[frenchmotor$sensitive=="Female"]
 
 par(mfrow=c(1,2))
 
-hist(pyA,probability = TRUE,xlab="Score (logistic regression), S = A", col=scales::alpha(COLORS["A"],.4), border="white",main="",breaks=seq(0,.6,by=.02))
-dA = density_score(pyA)
+hist(pyA,probability = TRUE,xlab="Score (logistic regression), S = A", col=scales::alpha(COLORS["A"],.4), border="white",main="",breaks=seq(0,.6,by=.02),ylim=c(0,10.4))
+dA = density_score(pyA[sample(1:length(pyA),size=1500)],b=.01)
 vx = seq(0,.6,length=101)
 lines(vx,dA(vx),col=COLORS["A"],lwd=3)
 
-hist(pyB,probability = TRUE,xlab="Score (logistic regression), S = B", col=scales::alpha(COLORS["B"],.4), border="white",main="",breaks=seq(0,.6,by=.02))
-dB = density_score(pyB)
+hist(pyB,probability = TRUE,xlab="Score (logistic regression), S = B", col=scales::alpha(COLORS["B"],.4), border="white",main="",breaks=seq(0,.6,by=.02),ylim=c(0,10.4))
+dB = density_score(pyB[sample(1:length(pyB),size=1500)],b=.01)
 vx = seq(0,.6,length=101)
 lines(vx,dB(vx),col=COLORS["B"],lwd=3)
 ```
@@ -39,6 +41,11 @@ lines(vx,dB(vx),col=COLORS["B"],lwd=3)
 
 ``` r
 library(locfit)
+```
+
+    ## locfit 1.5-9.8    2023-06-11
+
+``` r
 pcA = plot_calibration(pyA,(frenchmotor$y[frenchmotor$sensitive=="Male"]=="1")*1,u = seq(0,.25,length=201),a=.2)
 pcB = plot_calibration(pyB,frenchmotor$y[frenchmotor$sensitive=="Female"]=="1",u = seq(0,.25,length=201),a=.2)
 
@@ -61,4 +68,4 @@ draw_transport(pyA, pyB, dA, dB,
                           sub = 6)
 ```
 
-![](insur-fair_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](insur-fair_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
