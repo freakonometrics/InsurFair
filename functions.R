@@ -168,6 +168,7 @@
 #' @return A plot
 #' @examples 
 #' NA
+#' @import scales
 #' @export
 draw_transport = function(yA, yB, 
                           densA, densB, 
@@ -228,6 +229,7 @@ axis(2,at=seq(limB[1],limB[2],length=sub),label=c(NA,seq(limB[1],limB[2],length=
 #' @examples 
 #' d1 <- density_score(runif(100));
 #' d2 <- density_score(rbeta(100,2,1));
+#' @import kdensity
 #' @export
 density_score = function(y,b = NA){
   if( is.na(b)) d = kdensity::kdensity(y ,kernel="beta")
@@ -246,6 +248,7 @@ density_score = function(y,b = NA){
 #' @return A dataframe with $x$ and $y$ used in the calibration plot
 #' @examples 
 #' d1 <- 1
+#' @import locfit
 #' @export
 plot_calibration = function(predy,
                             y,
