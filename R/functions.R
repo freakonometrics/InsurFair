@@ -152,6 +152,22 @@
 #' data(toydata1_valid)
 "toydata1"
 
+#' Optimal transport plot for scores
+#'
+#' Plots the optimal transport between two wamples
+#' @param yA vector of predictions in group A
+#' @param yB vector of predictions in group B
+#' @param densA kernel density estimate associated with sample yA
+#' @param densB kernel density estimate associated with sample yB
+#' @param limA range of values for yA
+#' @param limB range of values for yB
+#' @param limY magnitude of the density
+#' @param lab names for colors (default A and B)
+#' @param sub number of subdivisions of scores axis
+#' @return A plot
+#' @examples 
+#' NA
+#' @export
 draw_transport = function(yA, yB, 
                           densA, densB, 
                           limA = c(0,1), 
@@ -217,8 +233,8 @@ density_score = function(y){
 #' Compute the calibration function
 #'
 #' Compute values use to plot the calibration plot of a score defined on $[0,1]$
-#' @param predy The vector of predicted scores (in $[0,1]$) 
-#' @param y The vector of observed values (in $\{0,1\}$)
+#' @param predy The vector of predicted scores (in [0,1]) 
+#' @param y The vector of observed values (in {0,1})
 #' @param u The grid to compute values for the calibration plot (in $[0,1]$) 
 #' @param a Smoothing parameter for the local regression
 #' @return A dataframe with $x$ and $y$ used in the calibration plot
@@ -250,7 +266,9 @@ plot_calibration = function(predy,
 #'                    y1 = rnorm(100,1,2), 
 #'                    u = seq(-3,3,by=.1))
 #' @export
-plot_transport = function(y0,y1,u=seq(min(y0),max(y0),length=251)){
+plot_transport = function(y0,
+                          y1,
+                          u=seq(min(y0),max(y0),length=251)){
   F0 = function(y) mean(y0<=y)
   Q1 = function(u) quantile(y1,u) 
   F0u = Vectorize(F0)(u)
