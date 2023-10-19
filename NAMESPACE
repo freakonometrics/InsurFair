@@ -2,3 +2,4 @@
 
 export(density_score)
 export(plot_calibration)
+export(plot_transport)
