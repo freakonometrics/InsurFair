@@ -13,7 +13,32 @@ library(devtools)
 devtools::install_github("freakonometrics/InsurFair")
 library(InsurFair)
 ```
+    ## 
 
+``` r
+library(InsurFair)
+```
+
+``` r
+data(COLORS)
+```
+
+``` r
+data(toydata2)
+model_gam = mgcv::gam(y~s(x1,k=12,bs="cr")+s(x2,k=12,bs="cr")+s(x3,k=12,bs="cr"),
+data=toydata2,family=binomial)
+pred_y = predict(model_gam, type="response")
+F = fair_metrics(pred_outcome = pred_y)
+F$pred_rate_parity$Probability_plot+ scale_fill_manual( values = COLORS[c("B","A")])
+```
+
+![](insur-fair_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+F$roc_parity$ROCAUC_plot+ scale_color_manual(values = c("1"=COLORS["A"], "2"=COLORS["B"]), labels = c("1"="A","2"="B"))
+```
+
+![](insur-fair_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
 
 ``` r
 data(frenchmotor)
@@ -37,7 +62,7 @@ vx = seq(0,.6,length=101)
 lines(vx,dB(vx),col=COLORS["B"],lwd=3)
 ```
 
-![](insur-fair_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](insur-fair_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 library(locfit)
@@ -58,7 +83,7 @@ plot(pcB,col=COLORS["B"],lwd=3,xlab="Predictions",ylab="Observations",type="l")
 abline(a=0,b=1,col="grey")
 ```
 
-![](insur-fair_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->
+![](insur-fair_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
 
 ``` r
 draw_transport(pyA, pyB, dA, dB, 
