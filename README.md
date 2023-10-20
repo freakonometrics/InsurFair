@@ -13,11 +13,6 @@ library(devtools)
 devtools::install_github("freakonometrics/InsurFair")
 library(InsurFair)
 ```
-    ## 
-
-``` r
-library(InsurFair)
-```
 
 ``` r
 data(COLORS)
@@ -37,6 +32,9 @@ F$pred_rate_parity$Probability_plot+ scale_fill_manual( values = COLORS[c("B","A
 ``` r
 F$roc_parity$ROCAUC_plot+ scale_color_manual(values = c("1"=COLORS["A"], "2"=COLORS["B"]), labels = c("1"="A","2"="B"))
 ```
+
+    ## Scale for colour is already present.
+    ## Adding another scale for colour, which will replace the existing scale.
 
 ![](insur-fair_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
 
@@ -83,7 +81,7 @@ plot(pcB,col=COLORS["B"],lwd=3,xlab="Predictions",ylab="Observations",type="l")
 abline(a=0,b=1,col="grey")
 ```
 
-![](insur-fair_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
+![](insur-fair_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
 
 ``` r
 draw_transport(pyA, pyB, dA, dB, 
@@ -93,4 +91,4 @@ draw_transport(pyA, pyB, dA, dB,
                           sub = 6)
 ```
 
-![](insur-fair_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](insur-fair_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
