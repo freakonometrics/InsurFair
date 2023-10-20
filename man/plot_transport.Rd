@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{plot_transport}
 \alias{plot_transport}
-\title{Compute the transport function}
+\title{Compute the transport function on a grid}
 \usage{
 plot_transport(y0, y1, u = seq(min(y0), max(y0), length = 251))
 }
@@ -23,4 +23,7 @@ Compute values use to plot the (univariate) optimal transport
 str(plot_transport(y0 = rnorm(100,0,1),
                    y1 = rnorm(100,1,2), 
                    u = seq(-3,3,by=.1))
+}
+\seealso{
+\code{\link[=OPT]{OPT()}}
 }

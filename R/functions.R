@@ -2,8 +2,32 @@
 #'
 #' Dataset from CASDataset R package
 #'
-#' @name frenchmotor
+#' @name COLORS
 #' @details variables are
+#' \itemize{
+#'   \item 0 #5BBCD6 light blue (from Wes Anderson color palette)
+#'   \item 1 #FF0000 red 
+#'   \item A #00A08A green (from Wes Anderson color palette)
+#'   \item B #F2AD00 yellow (from Wes Anderson color palette)
+#'   \item with #046C9A dark blue 
+#'   \item without #C93312 dark red 
+#'   \item 2 #0B775E dark green 
+#'  }
+#'  
+#' @docType vector of colors
+#' @usage data(frenchmotor)
+#' @format vectors with 7 colors
+#' @keywords colors
+#' @examples
+#' data(COLORS)
+"COLORS"
+
+#' Motor insurance data
+#'
+#' Dataset from CASDataset R package
+#'
+#' @name frenchmotor
+#' @details See also [CASdatasets](http://cas.uqam.ca/). Variables are
 #' \itemize{
 #'   \item LicAge     : num  454 163 332 447 408 222 316 284 459 244 ...
 #'   \item VehAge     : Factor w/ 9 levels "0","1","10+",..: 1 4 2 1 9 8 1 7 8 5 ...
@@ -38,7 +62,7 @@
 #' Dataset from CASDataset R package
 #'
 #' @name germancredit
-#' @details variables are
+#' @details See also [CASdatasets](http://cas.uqam.ca/). Variables are
 #' \itemize{
 #'   \item Account_status          : Factor w/ 4 levels "< 0 DM",">= 200 DM",..: 1 3 4 1 1 4 4 3 4 3 ...
 #'   \item Duration                : num  6 48 12 42 24 36 24 36 12 30 ...
@@ -263,7 +287,7 @@ plot_calibration = function(predy,
                     y=caly))
 }
 
-#' Compute the transport function
+#' Compute the transport function on a grid
 #'
 #' Compute values use to plot the (univariate) optimal transport 
 #' 
@@ -271,6 +295,7 @@ plot_calibration = function(predy,
 #' @param y1 The vector of final vector
 #' @param u The grid to compute values for the transport plot  
 #' @return A dataframe with $x$ and $y$ used in the transport function plot
+#' @seealso [OPT()]
 #' @examples 
 #' str(plot_transport(y0 = rnorm(100,0,1),
 #'                    y1 = rnorm(100,1,2), 
@@ -286,3 +311,174 @@ plot_transport = function(y0,
   return(data.frame(x=u,
                     y=Q1u))
 }
+
+#' Compute the transport function
+#'
+#' Function for (univariate) optimal transport, see also [wikipedia](https://en.wikipedia.org/wiki/Transportation_theory_(mathematics)#Optimal_transportation_on_the_real_line)
+#' 
+#' @param y0 The vector of initial vector
+#' @param y1 The vector of final vector
+#' @param u Value at which transport is applied
+#' @return The transported value
+#' @examples 
+#' str(OPT(y0 = rnorm(100,0,1),
+#'         y1 = rnorm(100,1,2), 
+#'         u = 0)
+#' @export
+OPT = function(y0,y1,u=0){
+  F0 = function(y) mean(y0<=y)
+  Q1 = function(p) quantile(y1, p) 
+  return(Q1u(F0(u)))
+}
+
+#' Fairness metrics
+#'
+#' Compute different fairness metrics
+#' 
+#' @param threshold a model
+#' @param name_outcome xxxxx
+#' @param outcome_ref xxxxx
+#' @param name_sensitive xxxxx
+#' @param sensitive_ref xxxxx
+#' @param base xxxxx
+#' @param pred_outcome xxxxx
+#' @return a vector with 11 metrics, and details (table and graphs) on those 1.  metrics
+#' @examples 
+#' data(toydata2)
+#' model_gam = mgcv::gam(y~s(x1,k=12,bs="cr")+s(x2,k=12,bs="cr")+s(x3,k=12,bs="cr"),
+#' data=toydata2,family=binomial)
+#' pred_y = predict(model_gam, type="response")
+#' fair_metrics(pred_outcome = pred_y)$metrics
+#' @import fairness
+#' @import mgcv
+#' @export
+fair_metrics = function(threshold=.5,
+                        name_outcome = "y",
+                        outcome_ref = "1",
+                        base = toydata2,
+                        name_sensitive = "sensitive",
+                        sensitive_ref = "B",
+                        pred_outcome = probs){
+  vect = rep(NA,11)
+  res_prp <- fairness::pred_rate_parity(data = base, 
+                           outcome      = name_outcome, 
+                           outcome_base = outcome_ref, 
+                           group        = name_sensitive,
+                           probs        = pred_outcome, 
+                           cutoff       = threshold, 
+                           base         = sensitive_ref)
+  vect[1] = res_prp$Metric_plot$data[2,1]
+  
+  res_dem <- fairness::dem_parity(data = base, 
+                                  outcome      = name_outcome, 
+                                  outcome_base = outcome_ref, 
+                                  group        = name_sensitive,
+                                  probs        = pred_outcome, 
+                                  cutoff       = threshold, 
+                                  base         = sensitive_ref)
+  vect[2] = res_dem$Metric_plot$data[2,1]
+  
+  res_prop <- fairness::prop_parity(data = base, 
+                                    outcome      = name_outcome, 
+                                    outcome_base = outcome_ref, 
+                                    group        = name_sensitive,
+                                    probs        = pred_outcome, 
+                                    cutoff       = threshold, 
+                                    base         = sensitive_ref)
+  vect[3] = res_prop$Metric_plot$data[2,1]
+  
+  res_eq <- fairness::equal_odds(data = base, 
+                                 outcome      = name_outcome, 
+                                 outcome_base = outcome_ref, 
+                                 group        = name_sensitive,
+                                 probs        = pred_outcome, 
+                                 cutoff       = threshold, 
+                                 base         = sensitive_ref)
+  vect[4] = res_eq$Metric_plot$data[2,1]
+  
+  res_acc <- fairness::acc_parity(data = base, 
+                                  outcome      = name_outcome, 
+                                  outcome_base = outcome_ref, 
+                                  group        = name_sensitive,
+                                  probs        = pred_outcome, 
+                                  cutoff       = threshold, 
+                                  base         = sensitive_ref)
+  vect[5] = res_acc$Metric_plot$data[2,1]
+  
+  res_fnr <- fairness::fnr_parity(data = base, 
+                                  outcome      = name_outcome, 
+                                  outcome_base = outcome_ref, 
+                                  group        = name_sensitive,
+                                  probs        = pred_outcome, 
+                                  cutoff       = threshold, 
+                                  base         = sensitive_ref)
+  vect[6] = res_fnr$Metric_plot$data[2,1]
+  
+  res_fpr <- fairness::fpr_parity(data = base, 
+                                  outcome      = name_outcome, 
+                                  outcome_base = outcome_ref, 
+                                  group        = name_sensitive,
+                                  probs        = pred_outcome, 
+                                  cutoff       = threshold, 
+                                  base         = sensitive_ref)
+  vect[7] = res_fpr$Metric_plot$data[2,1]
+  
+  res_npv <- fairness::npv_parity(data = base, 
+                                  outcome      = name_outcome, 
+                                  outcome_base = outcome_ref, 
+                                  group        = name_sensitive,
+                                  probs        = pred_outcome, 
+                                  cutoff       = threshold, 
+                                  base         = sensitive_ref)
+  vect[8] = res_npv$Metric_plot$data[2,1]
+  
+  res_sp <- fairness::spec_parity(data = base, 
+                                  outcome      = name_outcome, 
+                                  outcome_base = outcome_ref, 
+                                  group        = name_sensitive,
+                                  probs        = pred_outcome, 
+                                  cutoff       = threshold, 
+                                  base         = sensitive_ref)
+  vect[9] = res_sp$Metric_plot$data[2,1]
+  
+  res_auc <- fairness::roc_parity(data = base, 
+                                  outcome      = name_outcome, 
+                                  group        = name_sensitive,
+                                  probs        = pred_outcome, 
+                                  base         = sensitive_ref)
+  vect[10] = res_auc$Metric_plot$data[2,1]
+  
+  res_mcc <- fairness::mcc_parity(data = base, 
+                                  outcome      = name_outcome, 
+                                  outcome_base = outcome_ref, 
+                                  group        = name_sensitive,
+                                  probs        = pred_outcome, 
+                                  base         = sensitive_ref)
+  vect[11] = res_mcc$Metric_plot$data[2,1]
+  
+  names(vect) = c("pred_rate_parity",
+                     "dem_parity",
+                     "prop_parity",
+                     "equal_odds",
+                     "acc_parity",
+                     "fnr_parity",
+                     "fpr_parity",
+                     "npv_parity",
+                     "spec_parity",
+                     "roc_parity",
+                     "mcc_parity")
+  L=list(metrics = vect,
+         pred_rate_parity = res_prp,
+         dem_parity = res_dem,
+         prop_parity = res_prop,
+         equal_odds = res_eq,
+         acc_parity = res_acc,
+         fnr_parity = res_fnr,
+         fpr_parity = res_fpr,
+         npv_parity = res_npv,
+         spec_parity = res_mcc,
+         roc_parity = res_auc,
+         mcc_parity = res_mcc)
+  return(L)
+  }
+

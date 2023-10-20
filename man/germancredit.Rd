@@ -14,7 +14,7 @@ data(germancredit)
 Dataset from CASDataset R package
 }
 \details{
-variables are
+See also \href{http://cas.uqam.ca/}{CASdatasets}. Variables are
 \itemize{
 \item Account_status          : Factor w/ 4 levels "< 0 DM",">= 200 DM",..: 1 3 4 1 1 4 4 3 4 3 ...
 \item Duration                : num  6 48 12 42 24 36 24 36 12 30 ...

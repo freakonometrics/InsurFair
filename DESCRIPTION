@@ -9,4 +9,4 @@ Depends:
     R (>= 2.10)
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
-Imports: kdensity, locfit, scales
+Imports: kdensity, locfit, scales, fairness, mgcv
