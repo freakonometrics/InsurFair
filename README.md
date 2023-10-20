@@ -30,7 +30,8 @@ F$pred_rate_parity$Probability_plot+ scale_fill_manual( values = COLORS[c("B","A
 ![](insur-fair_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
-F$roc_parity$ROCAUC_plot+ scale_color_manual(values = c("1"=COLORS["A"], "2"=COLORS["B"]), labels = c("1"="A","2"="B"))
+F$roc_parity$ROCAUC_plot+ 
+ scale_color_manual(values =as.character(COLORS[c("A","B")]), labels = c("1"="A","2"="B"))
 ```
 
     ## Scale for colour is already present.
