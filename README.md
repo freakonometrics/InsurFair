@@ -2,7 +2,7 @@
 ================
 Arthur Charpentier
 
-Codes and Data associated with the textbook [https://link.springer.com/book/9783031497827](Insurance, biases, discrimination and fairness) (ISBN: 978-3-031-49782-7)
+Codes and Data associated with the textbook [Insurance, biases, discrimination and fairness](https://link.springer.com/book/9783031497827) (ISBN: 978-3-031-49782-7)
 
 # Install the `InsurFair` library
 
