@@ -4,6 +4,9 @@ Arthur Charpentier
 
 Codes and Data associated with the textbook [Insurance, biases, discrimination and fairness](https://link.springer.com/book/9783031497827) (ISBN: 978-3-031-49782-7)
 
+* preliminary version of the book [Insurance, biases, discrimination and fairness (v2)](http://freakonometrics.free.fr/Insurance_Biases_Discrimination_and_Fairness_v2.pdf)
+* slides of the graduate course [Slides](https://github.com/freakonometrics/MAT998X/)
+
 # Install the `InsurFair` library
 
 The `InsurFair` library can be installed from *github*,
